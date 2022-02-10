@@ -7,7 +7,7 @@
     "lib": "lib"
   },
   "scripts": {
-    "test": "jest"
+    "test": "jest --watchAll"
   },
   "repository": {
     "type": "git",
@@ -21,7 +21,9 @@
   },
   "homepage": "https://github.com/KieranHannagan/heres-the-team#readme",
   "dependencies": {
-    "inquirer": "^8.2.0",
-    "jest": "^27.5.0"
+    "inquirer": "^8.2.0"
+  },
+  "devDependencies": {
+    "jest": "^27.5.1"
   }
 }
