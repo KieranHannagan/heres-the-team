@@ -1,0 +1,7 @@
+{
+    "eslint.format.enable": true,
+    "[css]": {
+        "editor.defaultFormatter": "aeschli.vscode-css-formatter"
+    },
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+}

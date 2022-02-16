@@ -1,0 +1,16 @@
+body {
+    font-family: Georgia, serif;
+}
+
+
+main {
+    margin-top: 3rem;
+}
+
+.title-text {
+    color: #ffff !important;
+}
+
+p {
+    margin-bottom: 0rem;
+}

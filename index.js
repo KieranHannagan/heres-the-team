@@ -59,6 +59,7 @@ var questions = [
     }
 ];
 
+// engineer questions
 var engineerQuestions = [
     {
         // GitHub Username
@@ -72,15 +73,10 @@ var engineerQuestions = [
                 return "Please enter a username";
             }
         }
-    },
-    {
-        //  Do you want to add another employee
-        type: 'confirm',
-        message: "Would you like to add another team member? You can only have one member per role.",
-        name: 'final'
     }
 ];
 
+// manager questions
 var managerQuestions = [
     {
         // Name input
@@ -94,16 +90,11 @@ var managerQuestions = [
                 return "Please enter an office number";
             }
         }
-    },
-    {
-        //  Do you want to add another employee
-        type: 'confirm',
-        message: "Would you like to add another team member? You can only have one member per role.",
-        name: 'final'
     }
 
 ];
 
+// intern questions
 var internQuestions = [
     {
         // Name input
@@ -117,14 +108,18 @@ var internQuestions = [
                 return "Please enter a a school";
             }
         }
-    },
+    }
+    
+];
+
+var finalQuestion = [ 
     {
         //  Do you want to add another employee
         type: 'confirm',
-        message: "Would you like to add another team member? You can only have one member per role.",
+        message: "Would you like to add another team member?",
         name: 'final'
     }
-];
+]
 
 
 // Function to initialize app
@@ -136,7 +131,8 @@ function callPrompt() {
             // pushing prompt data to answer object
             managerArr.push(answers);
             inquirer.prompt(managerQuestions).then(data => {
-                managerArr.push(data)
+                managerArr.push(data);
+                return addAnother();
             });
         }
 
@@ -145,7 +141,8 @@ function callPrompt() {
             // pushing prompt data to answer object
             engineerArr.push(answers);
             inquirer.prompt(engineerQuestions).then(data => {
-                engineerArr.push(data)
+                engineerArr.push(data);
+                return addAnother();
             });
         }
 
@@ -154,22 +151,26 @@ function callPrompt() {
             // pushing prompt data to answer object
             internArr.push(answers);
             inquirer.prompt(internQuestions).then(data => {
-                internArr.push(data)
+                internArr.push(data);
+                return addAnother();
             });
         }
+    })
+}
+
+// function to see if they want to add another employee
+function addAnother() {
+    inquirer.prompt(finalQuestion).then(answers => {
         if (answers.final) {
-            callPrompt();
+            return callPrompt();
         } else {
             // send to build template for html file
             // const htmlData = generateTemplate(managerArr, engineerArr, internArr);
-
+        
             // writeToFile(htmlData);
             console.log(managerArr, engineerArr, internArr);
-        }
+        }    
     })
-
 }
-
-
 
 callPrompt();
