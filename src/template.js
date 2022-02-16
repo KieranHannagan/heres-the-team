@@ -1,8 +1,24 @@
-const fs = require('fs');
 
-const generateHtml = function (internArr, engineerArr, managerArr) {
-    return `
-    <!DOCTYPE html>
+const Engineer = require('../lib/Engineer');
+const Manager = require('../lib/Manager');
+const Intern = require('../lib/Intern')
+
+function generateTemplate(managerArr, engineerArr, internArr) {
+    var managerSection = renderManager(managerArr)
+    var engineerSection = renderEngineer(engineerArr)
+    var internSection = renderIntern(internArr)
+
+    if(typeof managerSection == "undefined" ){
+        managerSection = "";
+    }
+    if(typeof engineerSection == "undefined" ){
+        engineerSection = "";
+    }
+    if(typeof internSection == "undefined" ){
+        internSection = "";
+    }
+    const template = `
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -29,127 +45,12 @@ const generateHtml = function (internArr, engineerArr, managerArr) {
   <main class="container d-flex justify-content-center">
     <!-- first row of cards -->
     <div class="row row-cols-3 row-cols-md-3 g-3 container-fluid">
-      <div class="d-flex justify-content-center">
-        <div class="col">
-          <div class="card">
-            <div class="card-body p-0">
-              <div class="container bg-primary p-3">
-                <h5 class="title-text card-title">Alec</h5>
-                <h5 class="title-text card-title"><i class="bi bi-cup-fill"></i> Manager</h5>
-              </div>
-              <ul class="list-group list-group-flush m-3">
-                <li class="d-flex justify-content-center list-group-item border m-1">ID: 3</li>
-                <li class="d-flex justify-content-center list-group-item border m-1">
-                  <p>Email: <a href="mailto: kieranhannagan@gmail.com">Email
-                </li></a></p>
-                </li>
-                <li class="d-flex justify-content-center list-group-item border m-1">Office number: </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="d-flex justify-content-center">
-        <div class="col">
-          <div class="card">
-            <div class="card-body p-0">
-              <div class="container bg-primary p-3">
-                <h5 class="title-text card-title">Alec</h5>
-                <h5 class="title-text card-title"><i class="bi bi-eyeglasses"></i> Engineer</h5>
-              </div>
-              <ul class="list-group list-group-flush m-3">
-                <li class="d-flex justify-content-center list-group-item border m-1">ID: 3</li>
-                <li class="d-flex justify-content-center list-group-item border m-1">
-                  <p>Email: <a href="mailto: kieranhannagan@gmail.com">Email
-                </li></a></p>
-                </li>
-                <li class="d-flex justify-content-center list-group-item border m-1">Office number: </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="d-flex justify-content-center">
-        <div class="col">
-          <div class="card">
-            <div class="card-body p-0">
-              <div class="container bg-primary p-3">
-                <h5 class="title-text card-title">Alec</h5>
-                <h5 class="title-text card-title"><i class="bi bi-mortarboard-fill"></i> Intern</h5>
-              </div>
-              <ul class="list-group list-group-flush m-3">
-                <li class="d-flex justify-content-center list-group-item border m-1">ID: 3</li>
-                <li class="d-flex justify-content-center list-group-item border m-1">
-                  <p>Email: <a href="mailto: kieranhannagan@gmail.com">Email
-                </li></a></p>
-                </li>
-                <li class="d-flex justify-content-center list-group-item border m-1">Office number: </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="d-flex justify-content-center">
-        <div class="col">
-          <div class="card">
-            <div class="card-body p-0">
-              <div class="container bg-primary p-3">
-                <h5 class="title-text card-title">Alec</h5>
-                <h5 class="title-text card-title"><i class="bi bi-mortarboard-fill"></i> Intern</h5>
-              </div>
-              <ul class="list-group list-group-flush m-3">
-                <li class="d-flex justify-content-center list-group-item border m-1">ID: 3</li>
-                <li class="d-flex justify-content-center list-group-item border m-1">
-                  <p>Email: <a href="mailto: kieranhannagan@gmail.com">Email
-                </li></a></p>
-                </li>
-                <li class="d-flex justify-content-center list-group-item border m-1">Office number: </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="d-flex justify-content-center">
-        <div class="col">
-          <div class="card">
-            <div class="card-body p-0">
-              <div class="container bg-primary p-3">
-                <h5 class="title-text card-title">Alec</h5>
-                <h5 class="title-text card-title"><i class="bi bi-mortarboard-fill"></i> Intern</h5>
-              </div>
-              <ul class="list-group list-group-flush m-3">
-                <li class="d-flex justify-content-center list-group-item border m-1">ID: 3</li>
-                <li class="d-flex justify-content-center list-group-item border m-1">
-                  <p>Email: <a href="mailto: kieranhannagan@gmail.com">Email
-                </li></a></p>
-                </li>
-                <li class="d-flex justify-content-center list-group-item border m-1">Office number: </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="d-flex justify-content-center">
-        <div class="col">
-          <div class="card">
-            <div class="card-body p-0">
-              <div class="container bg-primary p-3">
-                <h5 class="title-text card-title">Alec</h5>
-                <h5 class="title-text card-title"><i class="bi bi-mortarboard-fill"></i> Intern</h5>
-              </div>
-              <ul class="list-group list-group-flush m-3">
-                <li class="d-flex justify-content-center list-group-item border m-1">ID: 3</li>
-                <li class="d-flex justify-content-center list-group-item border m-1">
-                  <p>Email: <a href="mailto: kieranhannagan@gmail.com">Email
-                </li></a></p>
-                </li>
-                <li class="d-flex justify-content-center list-group-item border m-1">Office number: </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
+    ${managerSection}
 
+    ${engineerSection}  
+
+    ${internSection}
+    </div>
   </main>
 
   <!-- bootstrap -->
@@ -160,8 +61,95 @@ const generateHtml = function (internArr, engineerArr, managerArr) {
 </body>
 
 </html>
-    `
+`
+    console.log(template);
+    return template;
+}
 
-};
+function renderManager(managerArr) {
 
-module.exports = generateHtml;
+    for (let i = 0; i < managerArr.length; i++) {
+        let manager = new Manager(managerArr[i].name, managerArr[i].id, managerArr[i].email, managerArr[i].officeNumber)
+        return `
+    <div class="d-flex justify-content-center">
+    <div class="col">
+      <div class="card">
+        <div class="card-body p-0">
+          <div class="container bg-primary p-3">
+            <h5 class="title-text card-title">${manager.name}</h5>
+            <h5 class="title-text card-title"><i class="bi bi-mortarboard-fill"></i> ${manager.getRole()}</h5>
+          </div>
+          <ul class="list-group list-group-flush m-3">
+            <li class="d-flex justify-content-center list-group-item border m-1">ID: ${manager.id}</li>
+            <li class="d-flex justify-content-center list-group-item border m-1">
+              <p>Email: <a href="mailto: ${manager.email}">${manager.email}
+            </li></a></p>
+            </li>
+            <li class="d-flex justify-content-center list-group-item border m-1">Office number: ${manager.getOfficeNumber()}</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  `
+    }
+}
+function renderEngineer(engineerArr) {
+
+    for (let i = 0; i < engineerArr.length; i++) {
+        let engineer = new Engineer(engineerArr[i].name, engineerArr[i].id, engineerArr[i].email, engineerArr[i].gitHub)
+        return `
+    <div class="d-flex justify-content-center">
+    <div class="col">
+      <div class="card">
+        <div class="card-body p-0">
+          <div class="container bg-primary p-3">
+            <h5 class="title-text card-title">${engineer.name}</h5>
+            <h5 class="title-text card-title"><i class="bi bi-mortarboard-fill"></i> ${engineer.getRole()}</h5>
+          </div>
+          <ul class="list-group list-group-flush m-3">
+            <li class="d-flex justify-content-center list-group-item border m-1">ID: ${engineer.id}</li>
+            <li class="d-flex justify-content-center list-group-item border m-1">
+              <p>Email: <a href="mailto: ${engineer.email}">${engineer.email}
+            </li></a></p>
+            </li>
+
+            <li class="d-flex justify-content-center list-group-item border m-1"><a href="www.github.com/${engineer.getGitHub()}">GitHub</a> </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  `
+    }
+}
+function renderIntern(internArr) {
+
+    for (let i = 0; i < internArr.length; i++) {
+        let intern = new Intern(internArr[i].name, internArr[i].id, internArr[i].email, internArr[i].school)
+        return `
+    <div class="d-flex justify-content-center">
+    <div class="col">
+      <div class="card">
+        <div class="card-body p-0">
+          <div class="container bg-primary p-3">
+            <h5 class="title-text card-title">${intern.name}</h5>
+            <h5 class="title-text card-title"><i class="bi bi-mortarboard-fill"></i> ${intern.getRole()}</h5>
+          </div>
+          <ul class="list-group list-group-flush m-3">
+            <li class="d-flex justify-content-center list-group-item border m-1">ID: ${intern.id}</li>
+            <li class="d-flex justify-content-center list-group-item border m-1">
+              <p>Email: <a href="mailto: ${intern.email}">${intern.email}
+            </li></a></p>
+            </li>
+            <li class="d-flex justify-content-center list-group-item border m-1">School: ${intern.getSchool()}</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  `
+    }
+}
+
+module.exports = generateTemplate;

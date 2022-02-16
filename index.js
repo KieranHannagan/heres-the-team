@@ -2,14 +2,17 @@ const inquirer = require('inquirer');
 const jest = require('jest');
 const writeHtml = require('./src/writeFile');
 const generateTemplate = require('./src/template');
+const Employee = require('./lib/Employee');
 
-const managerArr = [];
-const engineerArr = [];
-const internArr = [];
-
+// functions to get employee info
 
 
-//  Questions for general employees
+var managerArr = [];
+var engineerArr = [];
+var internArr = [];
+
+// *  Questions to enter into the inquirer Prompts  
+//  questions for general employees
 var questions = [
     {
         // Name input
@@ -28,7 +31,7 @@ var questions = [
         // Employee ID
         type: 'input',
         message: 'What is their ID number?',
-        name: 'id',
+        name: 'employeeId',
         validate: (value) => {
             if (value) {
                 return true;
@@ -55,7 +58,14 @@ var questions = [
         type: 'checkbox',
         name: 'role',
         message: 'What is their role?',
-        choices: [new inquirer.Separator(), 'Manager', new inquirer.Separator(), 'Engineer', new inquirer.Separator(), 'Intern', new inquirer.Separator()]
+        choices: [new inquirer.Separator(), 'Manager', new inquirer.Separator(), 'Engineer', new inquirer.Separator(), 'Intern', new inquirer.Separator()],
+        validate: (value) => {
+            if (value.length === 1) {
+                return true;
+            } else {
+                return "Error, you can only assign one role to each employee";
+            }
+        }
     }
 ];
 
@@ -65,7 +75,7 @@ var engineerQuestions = [
         // GitHub Username
         type: 'input',
         message: "What is the engineer's GitHub username?",
-        name: 'github',
+        name: 'gitHub',
         validate: (value) => {
             if (value) {
                 return true;
@@ -73,6 +83,14 @@ var engineerQuestions = [
                 return "Please enter a username";
             }
         }
+    },
+    {
+        //  Do you want to add another employee
+        type: 'checkbox',
+        name: 'final',
+        message: "Would you like to add another team member?",
+        choices: [new inquirer.Separator(), 'Yes', new inquirer.Separator(), 'No', new inquirer.Separator()],
+        default: 'No'
     }
 ];
 
@@ -90,6 +108,14 @@ var managerQuestions = [
                 return "Please enter an office number";
             }
         }
+    },
+    {
+        //  Do you want to add another employee
+        type: 'checkbox',
+        name: 'final',
+        message: "Would you like to add another team member?",
+        choices: [new inquirer.Separator(), 'Yes', new inquirer.Separator(), 'No', new inquirer.Separator()],
+        default: 'No'
     }
 
 ];
@@ -105,72 +131,106 @@ var internQuestions = [
             if (value) {
                 return true;
             } else {
-                return "Please enter a a school";
+                return "Please enter a school";
             }
         }
-    }
-    
-];
-
-var finalQuestion = [ 
+    },
     {
         //  Do you want to add another employee
-        type: 'confirm',
+        type: 'checkbox',
+        name: 'final',
         message: "Would you like to add another team member?",
-        name: 'final'
+        choices: [new inquirer.Separator(), 'Yes', new inquirer.Separator(), 'No', new inquirer.Separator()],
+        default: 'No'
     }
-]
+];
 
 
 // Function to initialize app
-function callPrompt() {
+async function callPrompt() {
     //ask general employee questions
     inquirer.prompt(questions).then(answers => {
         // if they chose manager, it will ask manager specific question
-        if (answers.role = 'Manager') {
-            // pushing prompt data to answer object
-            managerArr.push(answers);
-            inquirer.prompt(managerQuestions).then(data => {
-                managerArr.push(data);
-                return addAnother();
-            });
+        if (answers.role == 'Manager') {
+            let manager = {
+                name: answers.name,
+                id: answers.employeeId,
+                email: answers.email,
+            }
+            // pushing prompt answer object to managers array
+            managerArr.push(manager)
+            getManagerInfo(managerQuestions);
         }
-
-        // if they chose engineer, it will ask engineer specific question
         if (answers.role == 'Engineer') {
-            // pushing prompt data to answer object
-            engineerArr.push(answers);
-            inquirer.prompt(engineerQuestions).then(data => {
-                engineerArr.push(data);
-                return addAnother();
-            });
+            let engineer = {
+                name: answers.name,
+                id: answers.employeeId,
+                email: answers.email,
+            }
+            // pushing prompt answer object to managers array
+            engineerArr.push(engineer)
+            getEngineerInfo(engineerQuestions);
         }
-
-        // if they chose intern, it will ask intern specific question
         if (answers.role == 'Intern') {
-            // pushing prompt data to answer object
-            internArr.push(answers);
-            inquirer.prompt(internQuestions).then(data => {
-                internArr.push(data);
-                return addAnother();
-            });
+            let intern = {
+                name: answers.name,
+                id: answers.employeeId,
+                email: answers.email,
+            }
+            // pushing prompt answer object to managers array
+            internArr.push(intern)
+            getInternInfo(internQuestions);
         }
     })
 }
 
-// function to see if they want to add another employee
-function addAnother() {
-    inquirer.prompt(finalQuestion).then(answers => {
-        if (answers.final) {
-            return callPrompt();
+function getManagerInfo(managerQuestions) {
+    inquirer.prompt(managerQuestions).then(data => {
+
+        oldData = managerArr[managerArr.length - 1];
+        managerArr[managerArr.length - 1] = {
+            ...oldData,
+            officeNumber: data.officeNumber
+        }
+        console.log(managerArr);
+        if (data.final == 'Yes') {
+            callPrompt();
         } else {
-            // send to build template for html file
-            // const htmlData = generateTemplate(managerArr, engineerArr, internArr);
-        
-            // writeToFile(htmlData);
-            console.log(managerArr, engineerArr, internArr);
-        }    
-    })
+            writeHtml(generateTemplate(managerArr, engineerArr, internArr));
+        }
+    });
+}
+
+function getEngineerInfo(engineerQuestions) {
+    inquirer.prompt(engineerQuestions).then(data => {
+        oldData = engineerArr[engineerArr.length - 1];
+        engineerArr[engineerArr.length - 1] = {
+            ...oldData,
+            gitHub: data.gitHub
+        }
+        console.log(engineerArr);
+        if (data.final == 'Yes') {
+            callPrompt();
+        } else {
+            writeHtml(generateTemplate(managerArr, engineerArr, internArr));
+        }
+    });
+}
+
+function getInternInfo(internQuestions) {
+    inquirer.prompt(internQuestions).then(data => {
+        oldData = internArr[internArr.length - 1];
+        internArr[internArr.length - 1] = {
+            ...oldData,
+            school: data.school
+        }
+        console.log(internArr);
+        if (data.final == 'Yes') {
+            callPrompt();
+        } else {
+            writeHtml(generateTemplate(managerArr, engineerArr, internArr));
+        }
+    });
 }
 
 callPrompt();
