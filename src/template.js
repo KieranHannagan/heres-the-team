@@ -3,22 +3,27 @@ const Engineer = require('../lib/Engineer');
 const Manager = require('../lib/Manager');
 const Intern = require('../lib/Intern')
 
+let managerHtml = [];
+let internHtml = [];
+let engineerHtml = [];
+
+
 // template of html, contains base page with no team info
 function generateTemplate(managerArr, engineerArr, internArr) {
-    var managerSection = renderManager(managerArr)
-    var engineerSection = renderEngineer(engineerArr)
-    var internSection = renderIntern(internArr)
+  var managerSection = renderManager(managerArr)
+  var engineerSection = renderEngineer(engineerArr)
+  var internSection = renderIntern(internArr)
 
-    if(typeof managerSection == "undefined" ){
-        managerSection = "";
-    }
-    if(typeof engineerSection == "undefined" ){
-        engineerSection = "";
-    }
-    if(typeof internSection == "undefined" ){
-        internSection = "";
-    }
-    const template = `
+  if (typeof managerSection == "undefined") {
+    managerSection = "";
+  }
+  if (typeof engineerSection == "undefined") {
+    engineerSection = "";
+  }
+  if (typeof internSection == "undefined") {
+    internSection = "";
+  }
+  const template = `
 <!DOCTYPE html>
 <html lang="en">
 
@@ -63,14 +68,16 @@ function generateTemplate(managerArr, engineerArr, internArr) {
 
 </html>
 `
-    return template;
+  return template;
 }
 
 function renderManager(managerArr) {
-// go through each member of the manager array and create a section for them 
-    for (let i = 0; i < managerArr.length; i++) {
-        let manager = new Manager(managerArr[i].name, managerArr[i].id, managerArr[i].email, managerArr[i].officeNumber)
-        return `
+  // go through each member of the manager array and create a section for them 
+  for (let i = 0; i < managerArr.length; i++) {
+    // creating manager using Manager class constructor
+    let manager = new Manager(managerArr[i].name, managerArr[i].id, managerArr[i].email, managerArr[i].officeNumber)
+
+    let managerData = `
     <div class="d-flex justify-content-center">
     <div class="col">
       <div class="card">
@@ -92,13 +99,20 @@ function renderManager(managerArr) {
     </div>
   </div>
   `
-    }
+    // adding data to html array
+    managerHtml.push(managerData);
+  }
+  // returning data with all managers
+  return managerHtml.join(' ');
 }
+
 function renderEngineer(engineerArr) {
-// go through each member of the engineer array and create a section for them 
-    for (let i = 0; i < engineerArr.length; i++) {
-        let engineer = new Engineer(engineerArr[i].name, engineerArr[i].id, engineerArr[i].email, engineerArr[i].gitHub)
-        return `
+  // go through each member of the engineer array and create a section for them 
+  for (let i = 0; i < engineerArr.length; i++) {
+    // creating engineer using Engineer class constructor
+    let engineer = new Engineer(engineerArr[i].name, engineerArr[i].id, engineerArr[i].email, engineerArr[i].gitHub)
+
+    let engineerData = `
     <div class="d-flex justify-content-center">
     <div class="col">
       <div class="card">
@@ -121,13 +135,20 @@ function renderEngineer(engineerArr) {
     </div>
   </div>
   `
-    }
+    // adding data to html array
+    engineerHtml.push(engineerData);
+  }
+  // returning array with all engineers
+  return engineerHtml.join(' ');
 }
+
 function renderIntern(internArr) {
-// go through each member of the intern array and create a section for them 
-    for (let i = 0; i < internArr.length; i++) {
-        let intern = new Intern(internArr[i].name, internArr[i].id, internArr[i].email, internArr[i].school)
-        return `
+  // go through each member of the intern array and create a section for them 
+  for (let i = 0; i < internArr.length; i++) {
+    // creating intern using Intern class constructor
+
+    let intern = new Intern(internArr[i].name, internArr[i].id, internArr[i].email, internArr[i].school)
+    let internData = `
     <div class="d-flex justify-content-center">
     <div class="col">
       <div class="card">
@@ -149,7 +170,11 @@ function renderIntern(internArr) {
     </div>
   </div>
   `
-    }
+    // adding data to html array
+    internHtml.push(internData);
+  }
+  // returning data with all interns
+  return internHtml.join(' ');
 }
 
 module.exports = generateTemplate;

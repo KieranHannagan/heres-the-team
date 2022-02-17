@@ -31,10 +31,7 @@
 
   If you would like to change the location in which it renders, simply change the first parameter in the fs.writeToFile(). It is located in the 'src' directory.
 
-  ![tests](./assets/images/write2file.png)
-  
-
-
+  ![write2file](./assets/images/write2file.png)
 
 
   ## License
@@ -44,7 +41,8 @@
   https://opensource.org/licenses/MIT
 
   ## Tests 
-  The tests are written to insure that the classes, as well as their methods are working properly. They are in the __tests__ directory and there is one for a base Employee, a Manager, an Engineer and an Intern.
+  The tests are written to insure that the classes, as well as their methods are working properly. They are in the __tests__ directory and there is one for a base Employee, a Manager, an Engineer and an Intern. This application uses jest, a node.js dependency, to run its tests. To invoke the testing, type 'npm run test' into the command line. This is demonstrated in the tutorial video in the  [Usage](#usage) section.
+
   ![tests](./assets/images/tests.png)
   ## Questions
   If you have any questions, feel free to reach out and contact me via email.
