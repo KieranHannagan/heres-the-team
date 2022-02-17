@@ -4,9 +4,7 @@ const writeHtml = require('./src/writeFile');
 const generateTemplate = require('./src/template');
 const Employee = require('./lib/Employee');
 
-// functions to get employee info
-
-
+// arrays for each new employee
 var managerArr = [];
 var engineerArr = [];
 var internArr = [];
@@ -184,50 +182,58 @@ async function callPrompt() {
     })
 }
 
+// prompts user if they chose to add an "manager"
 function getManagerInfo(managerQuestions) {
     inquirer.prompt(managerQuestions).then(data => {
-
+        // combines data from previous questions with new data 
         oldData = managerArr[managerArr.length - 1];
         managerArr[managerArr.length - 1] = {
             ...oldData,
             officeNumber: data.officeNumber
         }
-        console.log(managerArr);
+        // checking if they want to add another team member
         if (data.final == 'Yes') {
             callPrompt();
         } else {
+            // if they dont it sends all arrays to the template and writes the HTML file
             writeHtml(generateTemplate(managerArr, engineerArr, internArr));
         }
     });
 }
 
+// prompts user if they chose to add an "engineer"
 function getEngineerInfo(engineerQuestions) {
     inquirer.prompt(engineerQuestions).then(data => {
+        // combines data from previous questions with new data 
         oldData = engineerArr[engineerArr.length - 1];
         engineerArr[engineerArr.length - 1] = {
             ...oldData,
             gitHub: data.gitHub
         }
-        console.log(engineerArr);
+        // checking if they want to add another team member
         if (data.final == 'Yes') {
             callPrompt();
         } else {
+            // if they dont it sends all arrays to the template and writes the HTML file
             writeHtml(generateTemplate(managerArr, engineerArr, internArr));
         }
     });
 }
 
+// prompts user if they chose to add an "intern"
 function getInternInfo(internQuestions) {
     inquirer.prompt(internQuestions).then(data => {
+        // combines data from previous questions with new data 
         oldData = internArr[internArr.length - 1];
         internArr[internArr.length - 1] = {
             ...oldData,
             school: data.school
         }
-        console.log(internArr);
+        // checking if they want to add another team member
         if (data.final == 'Yes') {
             callPrompt();
         } else {
+            // if they dont it sends all arrays to the template and writes the HTML file
             writeHtml(generateTemplate(managerArr, engineerArr, internArr));
         }
     });

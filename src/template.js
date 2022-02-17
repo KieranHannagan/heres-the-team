@@ -3,6 +3,7 @@ const Engineer = require('../lib/Engineer');
 const Manager = require('../lib/Manager');
 const Intern = require('../lib/Intern')
 
+// template of html, contains base page with no team info
 function generateTemplate(managerArr, engineerArr, internArr) {
     var managerSection = renderManager(managerArr)
     var engineerSection = renderEngineer(engineerArr)
@@ -62,12 +63,11 @@ function generateTemplate(managerArr, engineerArr, internArr) {
 
 </html>
 `
-    console.log(template);
     return template;
 }
 
 function renderManager(managerArr) {
-
+// go through each member of the manager array and create a section for them 
     for (let i = 0; i < managerArr.length; i++) {
         let manager = new Manager(managerArr[i].name, managerArr[i].id, managerArr[i].email, managerArr[i].officeNumber)
         return `
@@ -95,7 +95,7 @@ function renderManager(managerArr) {
     }
 }
 function renderEngineer(engineerArr) {
-
+// go through each member of the engineer array and create a section for them 
     for (let i = 0; i < engineerArr.length; i++) {
         let engineer = new Engineer(engineerArr[i].name, engineerArr[i].id, engineerArr[i].email, engineerArr[i].gitHub)
         return `
@@ -124,7 +124,7 @@ function renderEngineer(engineerArr) {
     }
 }
 function renderIntern(internArr) {
-
+// go through each member of the intern array and create a section for them 
     for (let i = 0; i < internArr.length; i++) {
         let intern = new Intern(internArr[i].name, internArr[i].id, internArr[i].email, internArr[i].school)
         return `

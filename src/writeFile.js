@@ -1,7 +1,7 @@
 const fs = require('fs');
 
 
-// takes in the template to write README file
+// takes in the template to write HTML file
 function writeHtml(data) {
     fs.writeFile(`./dist/index.html`, data, (err) => {
         if (err) {
