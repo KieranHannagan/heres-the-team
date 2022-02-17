@@ -33,6 +33,10 @@
 
   ![write2file](./assets/images/write2file.png)
 
+## Video on Usage
+Click the video to see a tutorial walk-through on the app.
+
+[![Watch the video](./assets/images/thumbnail.png)](https://www.youtube.com/watch?v=_HpHuduApZU)
 
   ## License
   ### Badges
